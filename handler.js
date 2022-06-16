@@ -1,6 +1,11 @@
 "use strict";
 const AWS = require("aws-sdk");
 const ses = new AWS.SES();
+const HEADERS = {
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Methods": "*",
+  "Access-Control-Allow-Origin": "*",
+};
 
 module.exports.createContact = async (event, context) => {
   console.log("Received:::", event);
@@ -8,11 +13,7 @@ module.exports.createContact = async (event, context) => {
 
   if (!to || !from || !subject || !message) {
     return {
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Methods": "*",
-        "Access-Control-Allow-Origin": "*",
-      },
+      headers: HEADERS,
       statusCode: 400,
       body: JSON.stringify({ message: " to or from... are not set properly!" }),
     };
@@ -32,11 +33,7 @@ module.exports.createContact = async (event, context) => {
   try {
     await ses.sendEmail(params).promise();
     return {
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Methods": "*",
-        "Access-Control-Allow-Origin": "*",
-      },
+      headers: HEADERS,
       statusCode: 200,
       body: JSON.stringify({
         message: "email sent successfully!",
@@ -46,11 +43,7 @@ module.exports.createContact = async (event, context) => {
   } catch (error) {
     console.error(error);
     return {
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Methods": "*",
-        "Access-Control-Allow-Origin": "*",
-      },
+      headers: HEADERS,
       statusCode: 400,
       body: JSON.stringify({
         message: "The email failed to send",

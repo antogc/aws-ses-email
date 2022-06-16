@@ -13,7 +13,7 @@ export default function Home() {
     */
 
     const res = await fetch(
-      "https://3t66ov5uxg.execute-api.us-east-1.amazonaws.com/dev/contact-us",
+      "URL_to_the_Lambda_Endpoint",
       {
         body: JSON.stringify({
           to: event.target.to.value,
